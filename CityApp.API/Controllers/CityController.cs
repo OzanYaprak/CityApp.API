@@ -1,4 +1,5 @@
 ﻿using CityApp.API.Models;
+using CityApp.API.Services.CityService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CityApp.API.Controllers
@@ -7,25 +8,26 @@ namespace CityApp.API.Controllers
     [ApiController]
     public class CityController : ControllerBase
     {
-        //var regions = Enum.GetNames(typeof(Region)); Enumdan controller'a data çekme işlemi.
+        private readonly ICityService _cityService;
 
-
-        private static List<City> Cities = new List<City>
+        public CityController(ICityService cityService)
         {
-            new City(),
-            new City(){CityID=1, CityName="Kastamonu", CityPopulation="5000" }
-        };
+            _cityService = cityService;
+        }
+
+
+
 
         [HttpGet]
         public ActionResult<List<City>> Get()
         {
-            return Ok(Cities);
+            return Ok(_cityService.GetAllCities());
         }
 
         [HttpGet("{id}")]
         public ActionResult<City> Get(int id)
         {
-            var city = Cities.Find(x => x.CityID == id);
+            var city = _cityService.GetCityByID(id);
             if (city == null) { return NotFound("Böyle birşey yok"); }
             return Ok(city);
         }
@@ -39,8 +41,9 @@ namespace CityApp.API.Controllers
         [HttpPost]
         public ActionResult<List<City>> Post(City city)
         {
-            Cities.Add(city);
-            return Ok(Cities);
+            return Ok(_cityService.AddCity(city));
         }
     }
 }
+
+//var regions = Enum.GetNames(typeof(Region)); Enumdan controller'a data çekme işlemi.

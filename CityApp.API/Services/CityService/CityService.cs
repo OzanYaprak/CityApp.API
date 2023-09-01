@@ -19,7 +19,7 @@ namespace CityApp.API.Services.CityService
             return Cities;
         }
 
-        public List<City> Get()
+        public List<City> GetAllCities()
         {
             return Cities;
         }

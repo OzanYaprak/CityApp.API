@@ -1,3 +1,5 @@
+using CityApp.API.Services.CityService;
+
 namespace CityApp.API
 {
     public class Program
@@ -12,6 +14,10 @@ namespace CityApp.API
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            //Custom
+            builder.Services.AddScoped<ICityService, CityService>();
+
 
             var app = builder.Build();
 

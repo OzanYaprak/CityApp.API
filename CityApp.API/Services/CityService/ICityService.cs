@@ -4,7 +4,7 @@ namespace CityApp.API.Services.CityService
 {
     public interface ICityService
     {
-        List<City> Get();
+        List<City> GetAllCities();
 
         City GetCityByID(int id);
 
