@@ -1,4 +1,6 @@
 ﻿using CityApp.API.Models;
+using CityApp.API.Models.Dto.City;
+using CityApp.API.Responces;
 using CityApp.API.Services.CityService;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,15 +21,15 @@ namespace CityApp.API.Controllers
 
 
         [HttpGet]
-        public ActionResult<List<City>> Get()
+        public async Task<ActionResult<ServiceResponse<List<GetCity>>>> Get()
         {
-            return Ok(_cityService.GetAllCities());
+            return Ok(await _cityService.GetAllCities());
         }
 
         [HttpGet("{id}")]
-        public ActionResult<City> Get(int id)
+        public async Task<ActionResult<ServiceResponse<GetCity>>> Get(int id)
         {
-            var city = _cityService.GetCityByID(id);
+            var city = await _cityService.GetCityByID(id);
             if (city == null) { return NotFound("Böyle birşey yok"); }
             return Ok(city);
         }
@@ -39,9 +41,9 @@ namespace CityApp.API.Controllers
         //}
 
         [HttpPost]
-        public ActionResult<List<City>> Post(City city)
+        public async Task<ActionResult<ServiceResponse<List<GetCity>>>> Post(PostCity city)
         {
-            return Ok(_cityService.AddCity(city));
+            return Ok(await _cityService.AddCity(city));
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿using CityApp.API.Models;
+﻿using AutoMapper;
+using CityApp.API.Models;
+using CityApp.API.Models.Dto.City;
+using CityApp.API.Responces;
 
 namespace CityApp.API.Services.CityService
 {
@@ -11,23 +14,40 @@ namespace CityApp.API.Services.CityService
         };
 
 
+        private readonly IMapper _mapper;
 
-
-        public List<City> AddCity(City city)
+        public CityService(IMapper mapper)
         {
-            Cities.Add(city);
-            return Cities;
+            _mapper = mapper;
         }
 
-        public List<City> GetAllCities()
+
+
+        public async Task<ServiceResponse<List<GetCity>>> AddCity(PostCity city)
         {
-            return Cities;
+            var serviceResponse = new ServiceResponse<List<GetCity>>();
+            Cities.Add(_mapper.Map<City>(city));
+
+            serviceResponse.Data = Cities.Select(x=>_mapper.Map<GetCity>(x)).ToList();
+
+            return serviceResponse;
         }
 
-        public City GetCityByID(int id)
+        public async Task<ServiceResponse<List<GetCity>>> GetAllCities()
         {
+            var serviceResponse = new ServiceResponse<List<GetCity>> { Data = Cities.Select(x => _mapper.Map<GetCity>(x)).ToList() };
+
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<GetCity>> GetCityByID(int id)
+        {
+            var serviceResponse = new ServiceResponse<GetCity>();
+
             var city = Cities.Find(x => x.CityID == id);
-            return city;
+            serviceResponse.Data = _mapper.Map<GetCity>(city);
+
+            return serviceResponse;
         }
     }
 }

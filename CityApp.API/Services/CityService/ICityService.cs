@@ -1,13 +1,15 @@
 ﻿using CityApp.API.Models;
+using CityApp.API.Models.Dto.City;
+using CityApp.API.Responces;
 
 namespace CityApp.API.Services.CityService
 {
     public interface ICityService
     {
-        List<City> GetAllCities();
+        Task<ServiceResponse<List<GetCity>>> GetAllCities();
 
-        City GetCityByID(int id);
+        Task<ServiceResponse<GetCity>> GetCityByID(int id);
 
-        List<City> AddCity(City city);
+        Task<ServiceResponse<List<GetCity>>> AddCity(PostCity city);
     }
 }
